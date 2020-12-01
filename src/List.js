@@ -1,6 +1,5 @@
 import React from 'react';
 import Card from './Card.js';
-import store from './store.js';
 import './List.css'
 
 class List extends React.Component {
@@ -9,11 +8,6 @@ class List extends React.Component {
     }
     constructor(props) {
         super(props);
-        this.addCard = this.addCard.bind(this);
-    }
-    addCard() {
-        store.lists[this.props.index].cardIds.push('m');
-        console.log(store.lists[this.props.index].cardIds)
     }
     render() {
         return (
@@ -22,14 +16,16 @@ class List extends React.Component {
                     <h2>{this.props.header}</h2>
                 </header>
                 <div className="List-cards">
-                    {this.props.cards.map((card) =>
+                    {this.props.cards.map((card, index) =>
                         <Card
-                            key={card.id}
+                            key={index}
+                            index={index}
                             title={card.title}
+                            deleteCard={() => { this.props.deleteCard(index, this.props.index) }}
                             content={card.content}
                         />
                     )}
-                    <button type="button" className="List-add-button" onClick={this.addCard}>
+                    <button type="button" className="List-add-button" onClick={() => { this.props.addCard(this.props.index) }}>
                         + Add Random Card
                 </button>
                 </div>
